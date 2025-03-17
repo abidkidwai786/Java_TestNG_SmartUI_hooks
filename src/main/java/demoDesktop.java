@@ -29,13 +29,16 @@ import java.util.Map;
 
 public class demoDesktop {
 
-    public String username = System.getenv("LT_USERNAME");
-    public String accesskey = System.getenv("LT_ACCESS_KEY");
+    public String username = "";
+    public String accesskey = "";
     public RemoteWebDriver driver;
     public String gridURL = "hub.lambdatest.com";
     String status;
     String hub;
     SessionId sessionId;
+    public String browser_name="";
+    public String browser_version="";
+    public String platform_name="";
 
 
     @org.testng.annotations.Parameters(value = {"browser", "version", "platform"})
@@ -43,6 +46,10 @@ public class demoDesktop {
     @BeforeTest
     public void setUp(String browser, String version, String platform) throws Exception {
         try {
+
+            browser_name=browser+" "; //for screenshot naming
+            browser_version=version; //for screenshot naming
+            platform_name=platform+" "; //for screenshot naming
 
             DesiredCapabilities caps = new DesiredCapabilities();
             caps.setCapability("build", "DesktopDemo");
@@ -53,7 +60,9 @@ public class demoDesktop {
             caps.setCapability("network", true);
             caps.setCapability("visual", true);
             caps.setCapability("console", true);
-            caps.setCapability("headless", true);
+            //caps.setCapability("headless", true);
+            caps.setCapability("smartUI.project", "Goldman Sachs VisualUI");
+            caps.setCapability("smartUI.build", "Build1"); // UPDATE BUILD NAME IN EVERY RUN
 
             StopWatch driverStart = new StopWatch();
             driverStart.start();
@@ -84,20 +93,28 @@ public class demoDesktop {
     @Test
     public void DesktopScript() {
         try {
-            driver.get("https://lambdatest.github.io/sample-todo-app/");
-            WebDriverWait wait = new WebDriverWait(driver, 30);
-            WebElement firstItem;
-            firstItem = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body > div > div > div > ul > li:nth-child(1) > input")));
-            WebElement secondItem = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(2) > input"));
-            WebElement thirdItem = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(4) > input"));
-            WebElement fifthElement = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(5) > input"));
-            firstItem.click();
-            secondItem.click();
-            thirdItem.click();
-            fifthElement.click();
-            driver.findElement(By.xpath("//*[@id=\"sampletodotext\"]")).sendKeys("new item added");
-            driver.findElement(By.xpath("//*[@id=\"addbutton\"]")).isDisplayed();
-            driver.findElement(By.xpath("//*[@id=\"addbutton\"]")).click();
+            driver.get("https://www.lambdatest.com/");
+            Thread.sleep(5000);
+
+            System.out.println("Taking FullPage Screenshot");
+            //driver.executeScript("smartui.takeFullPageScreenshot=home-page-"+p+b+v);
+            driver.executeScript("smartui.takeScreenshot=home-page-"+platform_name+browser_name+browser_version);
+            Thread.sleep(1000);
+
+            driver.get("https://www.lambdatest.com/pricing");
+            Thread.sleep(5000);
+
+            System.out.println("Taking Pricing Page Screenshot");
+            driver.executeScript("smartui.takeScreenshot=pricing-page"+platform_name+browser_name+browser_version);
+            Thread.sleep(1000);
+
+            driver.get("https://www.lambdatest.com/support/docs/");
+            Thread.sleep(5000);
+
+            System.out.println("Taking Docs Page Screenshot");
+            driver.executeScript("smartui.takeScreenshot=docs"+platform_name+browser_name+browser_version);
+
+            System.out.println("TestFinished");
             status="passed";
         } catch (Exception e) {
 

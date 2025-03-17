@@ -3,19 +3,36 @@
 <suite thread-count="200" name="DesktopBrowsers" parallel="tests">
 
 
-    <test name="Win10">
+    <test name="Win10-Chrome134">
         <parameter name="browser" value="Chrome"/>
-        <parameter name="version" value="75.0"/>
+        <parameter name="version" value="134.0"/>
         <parameter name="platform" value="Win10"/>
 
         <classes>
             <class name="demoDesktop"/>
         </classes>
     </test>
-    <test name="Mac">
+    <test name="Win11-Edge134">
+        <parameter name="browser" value="MicrosoftEdge"/>
+        <parameter name="version" value="134.0"/>
+        <parameter name="platform" value="Windows 11"/>
+        <classes>
+            <class name="demoDesktop"/>
+        </classes>
+    </test>
+    <test name="Win10-FF136">
+        <parameter name="browser" value="Firefox"/>
+        <parameter name="version" value="136.0"/>
+        <parameter name="platform" value="Win10"/>
+
+        <classes>
+            <class name="demoDesktop"/>
+        </classes>
+    </test>
+    <test name="Mac-Safari18">
         <parameter name="browser" value="Safari"/>
-        <parameter name="version" value="12.0"/>
-        <parameter name="platform" value="Macos Mojave"/>
+        <parameter name="version" value="18"/>
+        <parameter name="platform" value="MacOS Sequoia"/>
         <classes>
             <class name="demoDesktop"/>
         </classes>

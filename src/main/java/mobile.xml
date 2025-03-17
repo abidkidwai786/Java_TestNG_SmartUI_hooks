@@ -2,20 +2,38 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="100" name="New Browsers" parallel="tests">
 
-    <test name="Android">
+    <test name="S21-11">
         <parameter name="browser" value="Chrome"/>
         <parameter name="platformVersion" value="11"/>
         <parameter name="platform" value="Android"/>
-        <parameter name="deviceName" value="Galaxy S10"/>
+        <parameter name="deviceName" value="Galaxy S21 5G"/>
         <classes>
             <class name="demoMobile"/>
         </classes>
     </test>
-    <test name="iOS">
+    <test name="Pixel9-14">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="platformVersion" value="14"/>
+        <parameter name="platform" value="Android"/>
+        <parameter name="deviceName" value="Pixel 9"/>
+        <classes>
+            <class name="demoMobile"/>
+        </classes>
+    </test>
+    <test name="OnePlus-13">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="platformVersion" value="13"/>
+        <parameter name="platform" value="Android"/>
+        <parameter name="deviceName" value="OnePlus Nord CE 3"/>
+        <classes>
+            <class name="demoMobile"/>
+        </classes>
+    </test>
+    <test name="iPhone13-15">
         <parameter name="browser" value="safari"/>
-        <parameter name="platformVersion" value="14.2"/>
+        <parameter name="platformVersion" value="15"/>
         <parameter name="platform" value="iOS"/>
-        <parameter name="deviceName" value="iPad (6th generation)"/>
+        <parameter name="deviceName" value="iPhone 13"/>
         <classes>
             <class name="demoMobile"/>
         </classes>

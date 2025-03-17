@@ -29,13 +29,16 @@ import java.util.Map;
 
 public class demoMobile {
 
-    public String username = System.getenv("LT_USERNAME");
-    public String accesskey = System.getenv("LT_ACCESS_KEY");
+    public String username = "";
+    public String accesskey = "";
     public RemoteWebDriver driver;
-    public String gridURL = "hub.lambdatest.com";
+    public String gridURL = "mobile-hub.lambdatest.com";
     String status;
     String hub;
     SessionId sessionId;
+    public String p="";
+    public String platform_version="";
+    public String device_name="";
 
 
     @org.testng.annotations.Parameters(value = {"browser", "platformVersion", "platform", "deviceName"})
@@ -43,15 +46,22 @@ public class demoMobile {
     public void setUp(String browser, String platformVersion, String platform, String deviceName) throws Exception {
         try {
 
+            device_name=deviceName+" "; //for screenshot naming
+            platform_version=platformVersion; //for screenshot naming
+
+
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("name", "Mobile");
             capabilities.setCapability("build", "MobileDemo");
             capabilities.setCapability("deviceName", deviceName);
             capabilities.setCapability("platformVersion",platformVersion );
-            capabilities.setCapability("platform", platform);
+            capabilities.setCapability("platformName", platform);
             capabilities.setCapability("network", true);
             capabilities.setCapability("console", true);
             capabilities.setCapability("visual", true);
+            capabilities.setCapability("smartUI.project", "Goldman Sachs VisualUI Mobile");
+            capabilities.setCapability("smartUI.build", "Build1"); //UPDATE BUILD NAME IN EVERY RUN
+            capabilities.setCapability("isRealMobile", true);
 
             StopWatch driverStart = new StopWatch();
             driverStart.start();
@@ -82,20 +92,28 @@ public class demoMobile {
     @Test
     public void DesktopScript() {
         try {
-            driver.get("https://lambdatest.github.io/sample-todo-app/");
-            WebDriverWait wait = new WebDriverWait(driver, 30);
-            WebElement firstItem;
-            firstItem = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body > div > div > div > ul > li:nth-child(1) > input")));
-            WebElement secondItem = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(2) > input"));
-            WebElement thirdItem = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(4) > input"));
-            WebElement fifthElement = driver.findElement(By.cssSelector("body > div > div > div > ul > li:nth-child(5) > input"));
-            firstItem.click();
-            secondItem.click();
-            thirdItem.click();
-            fifthElement.click();
-            driver.findElement(By.xpath("//*[@id=\"sampletodotext\"]")).sendKeys("new item added");
-            driver.findElement(By.xpath("//*[@id=\"addbutton\"]")).isDisplayed();
-            driver.findElement(By.xpath("//*[@id=\"addbutton\"]")).click();
+            driver.get("https://www.lambdatest.com/");
+            Thread.sleep(5000);
+
+            System.out.println("Taking FullPage Screenshot");
+            //driver.executeScript("smartui.takeFullPageScreenshot=home-page-"+p+b+v);
+            driver.executeScript("smartui.takeScreenshot=home-page-"+device_name+platform_version);
+            Thread.sleep(1000);
+
+            driver.get("https://www.lambdatest.com/pricing");
+            Thread.sleep(5000);
+
+            System.out.println("Taking Pricing Page Screenshot");
+            driver.executeScript("smartui.takeScreenshot=pricing-page-"+device_name+platform_version);
+            Thread.sleep(1000);
+
+            driver.get("https://www.lambdatest.com/support/docs/");
+            Thread.sleep(5000);
+
+            System.out.println("Taking Docs Page Screenshot");
+            driver.executeScript("smartui.takeScreenshot=docs-"+device_name+platform_version);
+
+            System.out.println("TestFinished");
             status="passed";
         } catch (Exception e) {
 
