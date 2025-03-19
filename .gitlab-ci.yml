@@ -1,0 +1,11 @@
+image: maven:3.3.9-jdk-8
+
+before_script:
+  - |
+    cd /builds/<GitLab username>/<GitLab Project Slug name>
+    echo 'export LT_USERNAME=<LT username>' >> ~/.bashrc
+    echo 'export LT_ACCESS_KEY=<LT access key>' >> ~/.bashrc
+      
+job:
+  script:
+    mvn clean test -DsuiteXmlFile=src/main/java/desktop.xml
